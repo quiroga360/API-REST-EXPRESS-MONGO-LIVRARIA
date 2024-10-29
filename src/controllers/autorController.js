@@ -11,13 +11,19 @@ class AutorController {
         };
     };
 
-    static async listarAutorPorId(req, res) {
+    static listarAutorPorId = async (req, res) => {
         try {
             const id = req.params.id;
-            const autorEncontrado = await autor.findById(id);
-            res.status(200).json(autorEncontrado);
-        } catch (erro) {
-            res.status(500).json({ message: `${erro.message} - falha ao buscar autor` });
+            const autorResultado = await autor.findById(id);
+
+            if (autorResultado !== null) {
+                res.status(200).send(autorResultado);
+            } else {
+                res.status(400).json({ message: "Id do Autor não localizado." });
+            };
+
+        } catch (error) {
+            res.status(500).json({ message: "Erro interno do servidor." });
         };
     };
 
